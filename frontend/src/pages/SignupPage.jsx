@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Eye, EyeOff, HeartPulse, CheckCircle2, Shield, Stethoscope } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { authAPI } from '../utils/api'
 
 // ── Departments list ──────────────────────────────────────
 const DEPARTMENTS = [
@@ -154,6 +156,9 @@ export default function SignupPage() {
   const [loading, setLoading]         = useState(false)
   const [agreed, setAgreed]           = useState(false)
   const [errors, setErrors]           = useState({})
+  const [apiError, setApiError]       = useState('')
+  const [success, setSuccess]         = useState(false)
+  const navigate = useNavigate()
 
   const [form, setForm] = useState({
     fullName: '', email: '', password: '', confirmPassword: '',
@@ -184,13 +189,29 @@ export default function SignupPage() {
     return e
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const errs = validate()
     setErrors(errs)
     if (Object.keys(errs).length) return
+    setApiError('')
     setLoading(true)
-    setTimeout(() => setLoading(false), 1500)
+    try {
+      const body = {
+        name: form.fullName, email: form.email, password: form.password, role,
+        ...(role === 'patient' && { age: form.age, gender: form.gender, height: form.height, weight: form.weight }),
+        ...(role === 'doctor'  && { department: form.department, experience: form.experience, hospital: form.hospital, location: form.location }),
+      }
+      const data = await authAPI.register(body)
+      localStorage.setItem('doctech_token', data.token)
+      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }))
+      setSuccess(true)
+      setTimeout(() => navigate('/patient/dashboard'), 1200)
+    } catch (err) {
+      setApiError(err.message || 'Registration failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -216,10 +237,24 @@ export default function SignupPage() {
           {/* Card */}
           <div className="bg-white border border-primary-100 rounded-3xl shadow-lg px-8 py-8">
             {/* Header */}
-            <div className="mb-6">
+            <div className="mb-5">
               <h1 className="text-2xl font-extrabold text-gray-900 mb-1">Create Your Health Account</h1>
               <p className="text-sm text-gray-500">Join DocTech and take control of your health.</p>
             </div>
+
+            {/* Success banner */}
+            {success && (
+              <div className="mb-4 px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 text-sm text-primary-700 font-medium flex items-center gap-2">
+                <span className="text-lg">🎉</span> Account created! Redirecting to your dashboard…
+              </div>
+            )}
+
+            {/* Error banner */}
+            {apiError && (
+              <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600 font-medium">
+                {apiError}
+              </div>
+            )}
 
             {/* Google */}
             <button

@@ -10,7 +10,7 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -62,10 +62,10 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Hamburger - opens sidebar if in dashboard, else local mobile menu */}
           <button
             className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => { setMenuOpen(!menuOpen); onMenuClick && onMenuClick() }}
             aria-label="Toggle menu"
           >
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

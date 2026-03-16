@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, HeartPulse, Shield, Clock, Users } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { authAPI } from '../utils/api'
 
 // ── Left-panel illustration ───────────────────────────────
 function HealthIllustration() {
@@ -78,13 +80,27 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe]     = useState(false)
   const [form, setForm] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
     setLoading(true)
-    setTimeout(() => setLoading(false), 1500) // placeholder
+    try {
+      const data = await authAPI.login({ email: form.email, password: form.password })
+      // Save token and user info
+      localStorage.setItem('doctech_token', data.token)
+      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }))
+      // Redirect based on role
+      navigate(data.role === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard')
+    } catch (err) {
+      setError(err.message || 'Login failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -110,10 +126,17 @@ export default function LoginPage() {
           {/* Card */}
           <div className="bg-white border border-primary-100 rounded-3xl shadow-lg px-8 py-10">
             {/* Header */}
-            <div className="mb-8">
+            <div className="mb-6">
               <h1 className="text-2xl font-extrabold text-gray-900 mb-1">Welcome Back</h1>
               <p className="text-sm text-gray-500">Sign in to your DocTech account</p>
             </div>
+
+            {/* Error banner */}
+            {error && (
+              <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-600 font-medium">
+                {error}
+              </div>
+            )}
 
             {/* Google button */}
             <button
