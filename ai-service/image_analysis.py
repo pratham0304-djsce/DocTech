@@ -93,7 +93,7 @@ def analyze_medical_image(file_bytes: bytes, filename: str) -> dict:
             probs = torch.nn.functional.softmax(outputs, dim=1)[0]
             top_prob, top_idx = torch.max(probs, 0)
 
-            confidence: float = round(float(top_prob.item()), 3)
+            confidence: float = round(float(top_prob.item()), 3)  # type: ignore[call-overload]
             class_idx: int = int(top_idx.item())
             finding = CLASS_LABELS.get(class_idx, "Unknown Finding")
 
