@@ -10,6 +10,7 @@ import DoctorFinder from './pages/DoctorFinder'
 import Appointments from './pages/Appointments'
 import PatientProfilePage from './pages/PatientProfilePage'
 import MedicalRecordsPage from './pages/MedicalRecordsPage'
+import HealthTrackerPage from './pages/HealthTrackerPage'
 
 // Placeholder pages for sub-routes
 const Placeholder = ({ title }) => (
@@ -43,7 +44,7 @@ function AnimatedRoutes() {
           <Route path="doctor-finder" element={<DoctorFinder />} />
           <Route path="records" element={<MedicalRecordsPage />} />
           <Route path="appointments" element={<Appointments />} />
-          <Route path="tracker" element={<Placeholder title="Health Tracker" />} />
+          <Route path="tracker" element={<HealthTrackerPage />} />
           <Route path="profile" element={<PatientProfilePage />} />
         </Route>
       </Routes>

@@ -8,14 +8,14 @@ import symptomRoutes      from './routes/symptoms.js'
 import reportRoutes       from './routes/reports.js'
 import healthRecordRoutes from './routes/healthRecords.js'
 import doctorRoutes       from './routes/doctors.js'
-import metricRoutes       from './routes/metrics.js'
-import reminderRoutes     from './routes/reminders.js'
-import patientRoutes      from './routes/patients.js'
-import appointmentRoutes  from './routes/appointments.js'
-import chatbotRoutes      from './routes/chatbot.js'
-import profileRoutes      from './routes/profile.js'
+import patientRoutes       from './routes/patients.js'
+import appointmentRoutes   from './routes/appointments.js'
+import chatbotRoutes       from './routes/chatbot.js'
+import profileRoutes       from './routes/profile.js'
 import medicalRecordRoutes from './routes/medicalRecords.js'
-import menstrualRoutes    from './routes/menstrual.js'
+import healthRoutes        from './routes/healthRoutes.js'
+import reminderRoutes      from './routes/reminderRoutes.js'
+import menstrualRoutes     from './routes/menstrualRoutes.js'
 
 dotenv.config()
 connectDB()
@@ -37,7 +37,7 @@ app.use('/api/symptoms',       symptomRoutes)
 app.use('/api/reports',        reportRoutes)
 app.use('/api/health-records', healthRecordRoutes)
 app.use('/api/doctors',        doctorRoutes)
-app.use('/api/metrics',        metricRoutes)
+app.use('/api/health',         healthRoutes)
 app.use('/api/reminders',      reminderRoutes)
 app.use('/api/profile',        profileRoutes)
 app.use('/api/records',        medicalRecordRoutes)
@@ -50,8 +50,8 @@ app.get('/', (req, res) => res.json({
   endpoints: [
     '/api/auth', '/api/patients', '/api/appointments', '/api/chatbot',
     '/api/reports', '/api/health-records', '/api/doctors',
-    '/api/metrics', '/api/reminders', '/api/symptoms',
-    '/api/profile', '/api/records', '/api/menstrual',
+    '/api/health', '/api/reminders', '/api/menstrual',
+    '/api/symptoms', '/api/profile', '/api/records',
   ],
 }))
 
