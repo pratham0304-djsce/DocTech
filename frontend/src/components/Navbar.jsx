@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Menu, X, HeartPulse } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -12,6 +12,18 @@ const navLinks = [
 
 export default function Navbar({ onMenuClick }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Only hide Login/Signup when inside a portal route (patient or doctor)
+  const isInPortal = location.pathname.startsWith('/patient') || location.pathname.startsWith('/doctor')
+
+  const handleLogout = () => {
+    localStorage.removeItem('doctech_token')
+    localStorage.removeItem('user')
+    navigate('/')
+    window.location.reload()
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-primary-100 shadow-sm">
@@ -54,12 +66,20 @@ export default function Navbar({ onMenuClick }) {
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <a href="/login" className="text-sm font-semibold text-primary-600 border border-primary-200 px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors">
-              Login
-            </a>
-            <a href="/signup" className="text-sm font-semibold text-white bg-primary-500 px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors shadow-sm">
-              Sign Up
-            </a>
+            {isInPortal ? (
+              <button onClick={handleLogout} className="text-sm font-semibold text-white bg-primary-500 px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors shadow-sm">
+                Logout
+              </button>
+            ) : (
+              <>
+                <a href="/login" className="text-sm font-semibold text-primary-600 border border-primary-200 px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors">
+                  Login
+                </a>
+                <a href="/signup" className="text-sm font-semibold text-white bg-primary-500 px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors shadow-sm">
+                  Sign Up
+                </a>
+              </>
+            )}
           </div>
 
           {/* Mobile Hamburger - opens sidebar if in dashboard, else local mobile menu */}
@@ -98,12 +118,20 @@ export default function Navbar({ onMenuClick }) {
             )
           )}
           <div className="flex flex-col gap-2 pt-3 border-t border-gray-100">
-            <a href="/login" className="text-sm font-semibold text-primary-600 border border-primary-200 px-4 py-2.5 rounded-lg hover:bg-primary-50 transition-colors text-center">
-              Login
-            </a>
-            <a href="/signup" className="text-sm font-semibold text-white bg-primary-500 px-4 py-2.5 rounded-lg hover:bg-primary-600 transition-colors text-center">
-              Sign Up
-            </a>
+            {isInPortal ? (
+              <button onClick={handleLogout} className="text-sm font-semibold text-white bg-primary-500 px-4 py-2.5 rounded-lg hover:bg-primary-600 transition-colors text-center w-full">
+                Logout
+              </button>
+            ) : (
+              <>
+                <a href="/login" className="text-sm font-semibold text-primary-600 border border-primary-200 px-4 py-2.5 rounded-lg hover:bg-primary-50 transition-colors text-center">
+                  Login
+                </a>
+                <a href="/signup" className="text-sm font-semibold text-white bg-primary-500 px-4 py-2.5 rounded-lg hover:bg-primary-600 transition-colors text-center">
+                  Sign Up
+                </a>
+              </>
+            )}
           </div>
         </div>
       )}

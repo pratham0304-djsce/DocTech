@@ -4,10 +4,15 @@ import Appointment from '../models/Appointment.js'
 // GET /api/doctors
 export const getDoctors = async (req, res) => {
   try {
-    const { department, location } = req.query
+    const { department, location, experience, rating } = req.query
     const filter = { role: 'doctor' }
+    
     if (department) filter.department = { $regex: department, $options: 'i' }
     if (location)   filter.location   = { $regex: location,   $options: 'i' }
+    if (experience) filter.experience = { $gte: Number(experience) }
+    if (rating)     filter.rating     = { $gte: Number(rating) }
+    
+    // We assume availability could be handled natively or mocked for now
     const doctors = await User.find(filter).select('-password')
     res.json(doctors)
   } catch (err) { res.status(500).json({ message: err.message }) }
@@ -52,6 +57,7 @@ export const bookAppointment = async (req, res) => {
       doctor:  req.params.id,
       datetime: req.body.datetime,
       reason:   req.body.reason,
+      hopi:     req.body.hopi || null // Save the AI-generated History of Presenting Illness
     })
     res.status(201).json(appointment)
   } catch (err) { res.status(500).json({ message: err.message }) }

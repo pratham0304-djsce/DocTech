@@ -6,6 +6,7 @@ const appointmentSchema = new mongoose.Schema({
   datetime:    { type: Date, required: true },
   status:      { type: String, enum: ['pending','confirmed','completed','cancelled'], default: 'pending' },
   reason:      { type: String },
+  hopi:        { type: String }, // History of Presenting Illness from AI Triage
   notes:       { type: String },
   meetingLink: { type: String },
 }, { timestamps: true })

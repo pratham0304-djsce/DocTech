@@ -5,6 +5,10 @@ import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import PatientDashboard from './pages/PatientDashboard'
+import AIChatbot from './pages/AIChatbot'
+import DoctorFinder from './pages/DoctorFinder'
+import Appointments from './pages/Appointments'
+import PatientProfilePage from './pages/PatientProfilePage'
 
 // Placeholder pages for sub-routes
 const Placeholder = ({ title }) => (
@@ -27,19 +31,19 @@ function AnimatedRoutes() {
         {/* Public routes with Navbar + Footer */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<LandingPage />} />
-          <Route path="login"  element={<LoginPage />} />
+          <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
         </Route>
 
         {/* Patient dashboard routes */}
         <Route path="/patient" element={<DashboardLayout />}>
-          <Route path="dashboard"    element={<PatientDashboard />} />
-          <Route path="ai-bot"       element={<Placeholder title="AI Health Assistant" />} />
-          <Route path="records"      element={<Placeholder title="Medical Records" />} />
-          <Route path="appointments" element={<Placeholder title="Appointments" />} />
-          <Route path="tracker"      element={<Placeholder title="Health Tracker" />} />
-          <Route path="reminders"    element={<Placeholder title="Reminders" />} />
-          <Route path="profile"      element={<Placeholder title="Profile" />} />
+          <Route path="dashboard" element={<PatientDashboard />} />
+          <Route path="ai-bot" element={<AIChatbot />} />
+          <Route path="doctor-finder" element={<DoctorFinder />} />
+          <Route path="records" element={<Placeholder title="Medical Records" />} />
+          <Route path="appointments" element={<Appointments />} />
+          <Route path="tracker" element={<Placeholder title="Health Tracker" />} />
+          <Route path="profile" element={<PatientProfilePage />} />
         </Route>
       </Routes>
     </div>
