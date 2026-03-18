@@ -9,6 +9,7 @@ import AIChatbot from './pages/AIChatbot'
 import DoctorFinder from './pages/DoctorFinder'
 import Appointments from './pages/Appointments'
 import PatientProfilePage from './pages/PatientProfilePage'
+import MedicalRecordsPage from './pages/MedicalRecordsPage'
 
 // Placeholder pages for sub-routes
 const Placeholder = ({ title }) => (
@@ -40,7 +41,7 @@ function AnimatedRoutes() {
           <Route path="dashboard" element={<PatientDashboard />} />
           <Route path="ai-bot" element={<AIChatbot />} />
           <Route path="doctor-finder" element={<DoctorFinder />} />
-          <Route path="records" element={<Placeholder title="Medical Records" />} />
+          <Route path="records" element={<MedicalRecordsPage />} />
           <Route path="appointments" element={<Appointments />} />
           <Route path="tracker" element={<Placeholder title="Health Tracker" />} />
           <Route path="profile" element={<PatientProfilePage />} />

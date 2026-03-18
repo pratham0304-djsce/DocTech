@@ -1,23 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ShieldCheck } from 'lucide-react'
 import ProfileHeader from '../components/profile/ProfileHeader'
 import EHRSection from '../components/profile/EHRSection'
 import MenstrualTracker from '../components/profile/MenstrualTracker'
 import ReminderSection from '../components/profile/ReminderSection'
+import request from '../utils/api'
 
-// ─── Mock Data ──────────────────────────────────────
-const INITIAL_PATIENT = {
-  id: 'PT-20240318',
-  name: 'Priya Sharma',
-  age: 28,
-  gender: 'Female',
-  height: 163,
-  weight: 58,
-  bloodGroup: 'O+',
-  allergies: ['Penicillin', 'Pollen', 'Shellfish'],
-  chronicDiseases: ['Mild Anemia', 'PCOS'],
-  familyHistory: ['Diabetes (Father)', 'Hypertension (Mother)'],
-  personalHistory: 'Non-smoker. Occasional mild headaches. Regular yoga practitioner.',
+// ─── Helpers ───────────────────────────────────────────
+function buildPatientFromAPI(apiUser) {
+  return {
+    id: 'PT-' + (apiUser._id || '').slice(-8),
+    name:            apiUser.name     || '',
+    age:             apiUser.age      || null,
+    gender:          apiUser.gender   || null,
+    height:          apiUser.height   || null,
+    weight:          apiUser.weight   || null,
+    bloodGroup:      apiUser.bloodGroup || 'Unknown',
+    allergies:       apiUser.allergies       || [],
+    chronicDiseases: apiUser.chronicDiseases || [],
+    familyHistory:   apiUser.familyHistory   || [],
+    personalHistory: apiUser.personalHistory || '',
+  }
 }
 
 const RECORDS = [
@@ -44,7 +47,36 @@ const REMINDERS = [
 
 // ─── Page ───────────────────────────────────────────
 export default function PatientProfilePage() {
-  const [patient, setPatient] = useState(INITIAL_PATIENT)
+  const [patient, setPatient] = useState({
+    id: '', name: '', age: null, gender: null,
+    height: null, weight: null, bloodGroup: 'Unknown',
+    allergies: [], chronicDiseases: [], familyHistory: [], personalHistory: '',
+  })
+
+  // Fetch fresh user data from the DB on mount — no need to re-login
+  useEffect(() => {
+    request('/auth/me')
+      .then(apiUser => {
+        // Also refresh localStorage so other pages see up-to-date data
+        const stored = JSON.parse(localStorage.getItem('doctech_user') || '{}')
+        localStorage.setItem('doctech_user', JSON.stringify({
+          ...stored,
+          name:   apiUser.name,
+          gender: apiUser.gender,
+          age:    apiUser.age,
+        }))
+        setPatient(buildPatientFromAPI(apiUser))
+      })
+      .catch(() => {
+        // Graceful fallback to localStorage if token expired / offline
+        try {
+          const stored = JSON.parse(localStorage.getItem('doctech_user') || '{}')
+          setPatient(buildPatientFromAPI(stored))
+        } catch {}
+      })
+  }, [])
+
+  const isFemale = patient.gender?.toLowerCase() === 'female'
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-6">
@@ -71,10 +103,10 @@ export default function PatientProfilePage() {
 
       {/* ── Menstrual + Reminders side-by-side on desktop ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {patient.gender === 'Female' && (
+        {isFemale && (
           <MenstrualTracker />
         )}
-        <div className={patient.gender === 'Female' ? '' : 'lg:col-span-2'}>
+        <div className={isFemale ? '' : 'lg:col-span-2'}>
           <ReminderSection reminders={REMINDERS} />
         </div>
       </div>

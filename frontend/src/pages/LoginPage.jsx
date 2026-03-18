@@ -93,7 +93,7 @@ export default function LoginPage() {
       const data = await authAPI.login({ email: form.email, password: form.password })
       // Save token and user info
       localStorage.setItem('doctech_token', data.token)
-      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }))
+      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role, gender: data.gender, age: data.age }))
       // Redirect based on role
       navigate(data.role === 'doctor' ? '/doctor/dashboard' : '/patient/dashboard')
     } catch (err) {

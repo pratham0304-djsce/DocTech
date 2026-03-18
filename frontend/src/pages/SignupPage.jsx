@@ -204,7 +204,7 @@ export default function SignupPage() {
       }
       const data = await authAPI.register(body)
       localStorage.setItem('doctech_token', data.token)
-      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role }))
+      localStorage.setItem('doctech_user', JSON.stringify({ name: data.name, email: data.email, role: data.role, gender: data.gender, age: data.age }))
       setSuccess(true)
       setTimeout(() => navigate('/patient/dashboard'), 1200)
     } catch (err) {

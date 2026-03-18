@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { label: 'Dashboard', to: '/patient/dashboard', icon: LayoutDashboard },
   { label: 'AI Health Assistant', to: '/patient/ai-bot', icon: Bot },
   { label: 'Find a Doctor', to: '/patient/doctor-finder', icon: User },
-  { label: 'Medical Records', to: '/patient/records', icon: FileText },
+  { label: 'Medical Records & Care', to: '/patient/records', icon: FileText },
   { label: 'Appointments', to: '/patient/appointments', icon: Calendar },
   { label: 'Health Tracker', to: '/patient/tracker', icon: Activity },
   { label: 'Profile', to: '/patient/profile', icon: User },

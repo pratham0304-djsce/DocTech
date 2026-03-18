@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   User, Edit3, X, Save, Droplets, Ruler, Weight,
   AlertCircle, Activity, Heart, Users, BookOpen, Check
@@ -38,6 +38,11 @@ function TagList({ items, emptyText }) {
 export default function ProfileHeader({ patient, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false)
   const [form, setForm] = useState({ ...patient })
+
+  // Re-sync form whenever the parent updates patient (e.g. after API fetch)
+  useEffect(() => {
+    setForm({ ...patient })
+  }, [patient])
 
   const bmi = form.height && form.weight
     ? (form.weight / ((form.height / 100) ** 2)).toFixed(1)

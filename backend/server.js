@@ -13,6 +13,9 @@ import reminderRoutes     from './routes/reminders.js'
 import patientRoutes      from './routes/patients.js'
 import appointmentRoutes  from './routes/appointments.js'
 import chatbotRoutes      from './routes/chatbot.js'
+import profileRoutes      from './routes/profile.js'
+import medicalRecordRoutes from './routes/medicalRecords.js'
+import menstrualRoutes    from './routes/menstrual.js'
 
 dotenv.config()
 connectDB()
@@ -36,6 +39,9 @@ app.use('/api/health-records', healthRecordRoutes)
 app.use('/api/doctors',        doctorRoutes)
 app.use('/api/metrics',        metricRoutes)
 app.use('/api/reminders',      reminderRoutes)
+app.use('/api/profile',        profileRoutes)
+app.use('/api/records',        medicalRecordRoutes)
+app.use('/api/menstrual',      menstrualRoutes)
 
 // ── Health check ──────────────────────────────────────────────
 app.get('/', (req, res) => res.json({
@@ -45,6 +51,7 @@ app.get('/', (req, res) => res.json({
     '/api/auth', '/api/patients', '/api/appointments', '/api/chatbot',
     '/api/reports', '/api/health-records', '/api/doctors',
     '/api/metrics', '/api/reminders', '/api/symptoms',
+    '/api/profile', '/api/records', '/api/menstrual',
   ],
 }))
 
