@@ -10,12 +10,12 @@ import healthRecordRoutes from './routes/healthRecords.js'
 import doctorRoutes       from './routes/doctors.js'
 import patientRoutes       from './routes/patients.js'
 import appointmentRoutes   from './routes/appointments.js'
-import chatbotRoutes       from './routes/chatbot.js'
 import profileRoutes       from './routes/profile.js'
 import medicalRecordRoutes from './routes/medicalRecords.js'
 import healthRoutes        from './routes/healthRoutes.js'
 import reminderRoutes      from './routes/reminderRoutes.js'
 import menstrualRoutes     from './routes/menstrualRoutes.js'
+import chatRoutes          from './routes/chatRoutes.js'
 
 dotenv.config()
 connectDB()
@@ -32,7 +32,6 @@ app.use('/uploads', express.static('uploads'))
 app.use('/api/auth',           authRoutes)
 app.use('/api/patients',       patientRoutes)
 app.use('/api/appointments',   appointmentRoutes)
-app.use('/api/chatbot',        chatbotRoutes)
 app.use('/api/symptoms',       symptomRoutes)
 app.use('/api/reports',        reportRoutes)
 app.use('/api/health-records', healthRecordRoutes)
@@ -42,16 +41,17 @@ app.use('/api/reminders',      reminderRoutes)
 app.use('/api/profile',        profileRoutes)
 app.use('/api/records',        medicalRecordRoutes)
 app.use('/api/menstrual',      menstrualRoutes)
+app.use('/api/chat',           chatRoutes)
 
 // ── Health check ──────────────────────────────────────────────
 app.get('/', (req, res) => res.json({
   message: 'DocTech API is running ✅',
   version: '2.0.0',
   endpoints: [
-    '/api/auth', '/api/patients', '/api/appointments', '/api/chatbot',
+    '/api/auth', '/api/patients', '/api/appointments',
     '/api/reports', '/api/health-records', '/api/doctors',
     '/api/health', '/api/reminders', '/api/menstrual',
-    '/api/symptoms', '/api/profile', '/api/records',
+    '/api/symptoms', '/api/profile', '/api/records', '/api/chat',
   ],
 }))
 

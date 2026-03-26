@@ -5,12 +5,12 @@ import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import PatientDashboard from './pages/PatientDashboard'
-import AIChatbot from './pages/AIChatbot'
+import ChatbotPage from './pages/ChatbotPage'
+import MedicalRecordsPage from './pages/MedicalRecordsPage'
+import HealthTrackerPage from './pages/HealthTrackerPage'
 import DoctorFinder from './pages/DoctorFinder'
 import Appointments from './pages/Appointments'
 import PatientProfilePage from './pages/PatientProfilePage'
-import MedicalRecordsPage from './pages/MedicalRecordsPage'
-import HealthTrackerPage from './pages/HealthTrackerPage'
 
 // Placeholder pages for sub-routes
 const Placeholder = ({ title }) => (
@@ -40,7 +40,7 @@ function AnimatedRoutes() {
         {/* Patient dashboard routes */}
         <Route path="/patient" element={<DashboardLayout />}>
           <Route path="dashboard" element={<PatientDashboard />} />
-          <Route path="ai-bot" element={<AIChatbot />} />
+          <Route path="ai-bot" element={<ChatbotPage />} />
           <Route path="doctor-finder" element={<DoctorFinder />} />
           <Route path="records" element={<MedicalRecordsPage />} />
           <Route path="appointments" element={<Appointments />} />

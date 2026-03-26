@@ -1,86 +1,70 @@
-import { User, Bot, Clock, Search } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Bot, User, FileText } from 'lucide-react'
 
-export default function ChatMessage({ message }) {
-  const isUser = message.role === 'user'
-  const navigate = useNavigate()
+const formatTime = (ts) => {
+  if (!ts) return ''
+  try { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+  catch { return '' }
+}
 
-  const formatTime = (isoString) => {
-    if (!isoString) return 'Just now'
-    return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  }
+const renderText = (text) => {
+  if (typeof text !== 'string') return null
+  return text.split('\n').map((line, i) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/)
+    return (
+      <p key={i} className={i > 0 ? 'mt-1' : ''}>
+        {parts.map((part, j) =>
+          part.startsWith('**') && part.endsWith('**')
+            ? <strong key={j}>{part.slice(2, -2)}</strong>
+            : <span key={j}>{part}</span>
+        )}
+      </p>
+    )
+  })
+}
 
-  // Look for "Recommended Departments:" pattern in the AI message
-  const getDepartments = (text) => {
-    if (!text || isUser) return []
-    const match = text.match(/\*\*Recommended Departments:\*\*(.*)/i)
-    if (!match) return []
-    return match[1].split(',').map(d => d.trim()).filter(Boolean)
-  }
-
-  const handleFindDoctor = (dept) => {
-    // Store the full AI triage result so DoctorFinder can attach it to the booking
-    sessionStorage.setItem('pendingHopi', message.content)
-    // Redirect with department filter
-    navigate(`/patient/doctor-finder?department=${encodeURIComponent(dept)}`)
-  }
-
-  const recommendedDepts = getDepartments(message.content)
+export default function ChatMessage({ role, content, timestamp, file }) {
+  const isUser = role === 'user'
 
   return (
-    <div className={`flex w-full mb-6 ${isUser ? 'justify-end' : 'justify-start'}`}>
-      
-      {/* Bot Avatar (Left) */}
-      {!isUser && (
-        <div className="flex-shrink-0 mr-3 hidden sm:block">
-          <div className="h-10 w-10 bg-primary-600 rounded-full flex items-center justify-center shadow-md shadow-primary-200">
-            <Bot className="h-5 w-5 text-white" />
-          </div>
-        </div>
-      )}
-
-      {/* Message Bubble */}
-      <div 
-        className={`max-w-[85%] sm:max-w-[75%] px-5 py-4 rounded-2xl relative shadow-sm ${
-          isUser 
-            ? 'bg-primary-600 text-white rounded-br-sm' 
-            : 'bg-white border border-gray-100 text-gray-800 rounded-bl-sm'
-        }`}
-      >
-        <p className="whitespace-pre-wrap leading-relaxed text-[15px]">
-          {message.content}
-        </p>
-        
-        <div className={`flex items-center gap-1 mt-2 text-xs ${isUser ? 'text-primary-200 justify-end' : 'text-gray-400 justify-start'}`}>
-          <Clock className="h-3 w-3" />
-          {formatTime(message.createdAt)}
-        </div>
+    <div className={`flex gap-2.5 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+      {/* Avatar */}
+      <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center mt-0.5 ${
+        isUser ? 'bg-[#238370] text-white' : 'bg-[#238370]/10 text-[#238370]'
+      }`}>
+        {isUser ? <User size={13} /> : <Bot size={13} />}
       </div>
 
-      {/* User Avatar (Right) */}
-      {isUser && (
-        <div className="flex-shrink-0 ml-3 hidden sm:block">
-          <div className="h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
-            <User className="h-5 w-5 text-gray-500" />
+      {/* Content */}
+      <div className={`max-w-[78%] flex flex-col gap-1 ${isUser ? 'items-end' : 'items-start'}`}>
+        {/* Text bubble */}
+        {content && (
+          <div
+            className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
+              isUser
+                ? 'bg-[#238370] text-white rounded-tr-sm'
+                : 'border border-[#238370]/10 text-gray-700 rounded-tl-sm'
+            }`}
+            style={!isUser ? { backgroundColor: 'rgba(35,131,112,0.06)' } : {}}
+          >
+            {renderText(content)}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Action Chips (Rendered immediately below the bubble if applicable) */}
-      {!isUser && recommendedDepts.length > 0 && (
-        <div className="absolute top-[100%] left-14 mt-1 flex gap-2 w-max">
-          {recommendedDepts.map(dept => (
-            <button
-              key={dept}
-              onClick={() => handleFindDoctor(dept)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-full transition-colors border border-blue-100 shadow-sm"
-            >
-              <Search className="w-3 h-3 border-blue-600 rounded-full" /> Find {dept} Doctor
-            </button>
-          ))}
-        </div>
-      )}
+        {/* File attachment bubble */}
+        {file && (
+          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs border ${
+            isUser
+              ? 'bg-[#238370]/80 text-white border-[#238370]/40'
+              : 'bg-white border-[#238370]/15 text-gray-600'
+          }`}>
+            <FileText size={13} />
+            <span className="truncate max-w-[160px]">{file.name}</span>
+            <span className="opacity-60">({(file.size / 1024).toFixed(1)} KB)</span>
+          </div>
+        )}
 
+        <p className="text-[10px] text-gray-300 px-1">{formatTime(timestamp)}</p>
+      </div>
     </div>
   )
 }

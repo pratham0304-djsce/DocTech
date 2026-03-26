@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, Bot, FileText, Calendar,
-  Activity, Bell, User, ChevronLeft, ChevronRight, X,
+  Activity, User, ChevronLeft, ChevronRight, X,
 } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', to: '/patient/dashboard', icon: LayoutDashboard },
-  { label: 'AI Health Assistant', to: '/patient/ai-bot', icon: Bot },
+  { label: 'Dashboard',            to: '/patient/dashboard',    icon: LayoutDashboard },
+  { label: 'AI Health Assistant',   to: '/patient/ai-bot',       icon: Bot },
   { label: 'Find a Doctor', to: '/patient/doctor-finder', icon: User },
   { label: 'Medical Records & Care', to: '/patient/records', icon: FileText },
   { label: 'Appointments', to: '/patient/appointments', icon: Calendar },

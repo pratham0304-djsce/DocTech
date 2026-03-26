@@ -1,0 +1,127 @@
+{
+  "chest pain": {
+    "department": ["Cardiology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Get an ECG immediately", "Monitor for recurring episodes", "Avoid strenuous activity until evaluated"]
+  },
+  "heart attack": {
+    "department": ["Cardiology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Call emergency services immediately", "Chew an aspirin if not allergic", "Do NOT drive yourself to the hospital"]
+  },
+  "palpitations": {
+    "department": ["Cardiology"],
+    "risk": "moderate",
+    "follow_up": ["Record when episodes occur", "Reduce caffeine intake", "Get a Holter monitor test"]
+  },
+  "headache": {
+    "department": ["Neurology", "General Medicine"],
+    "risk": "low",
+    "follow_up": ["Rest in a dark, quiet room", "Stay hydrated", "Consult a neurologist if headaches recur more than 3 times per week"]
+  },
+  "migraine": {
+    "department": ["Neurology"],
+    "risk": "moderate",
+    "follow_up": ["Identify and avoid personal triggers", "Maintain a headache diary", "Consult for preventive medication if frequent"]
+  },
+  "fever": {
+    "department": ["General Medicine"],
+    "risk": "low",
+    "follow_up": ["Stay hydrated and rest", "Take paracetamol if above 38°C", "See a doctor if fever persists beyond 3 days"]
+  },
+  "high fever": {
+    "department": ["General Medicine", "Infectious Disease"],
+    "risk": "moderate",
+    "follow_up": ["Monitor temperature every 4 hours", "Seek medical attention if above 39.5°C", "Watch for signs of dehydration"]
+  },
+  "cough": {
+    "department": ["Pulmonology", "General Medicine"],
+    "risk": "low",
+    "follow_up": ["Try honey and warm fluids", "Avoid smoking and irritants", "See a doctor if cough persists beyond 2 weeks"]
+  },
+  "breathlessness": {
+    "department": ["Pulmonology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Sit upright and stay calm", "Use prescribed inhaler if available", "Seek emergency care if breathlessness worsens rapidly"]
+  },
+  "shortness of breath": {
+    "department": ["Pulmonology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Sit upright and stay calm", "Seek immediate medical attention", "Avoid lying flat"]
+  },
+  "nausea": {
+    "department": ["Gastroenterology"],
+    "risk": "low",
+    "follow_up": ["Take small sips of clear fluids", "Avoid heavy or greasy foods", "See a doctor if nausea persists beyond 48 hours"]
+  },
+  "vomiting": {
+    "department": ["Gastroenterology"],
+    "risk": "moderate",
+    "follow_up": ["Stay hydrated with ORS or clear fluids", "Avoid solid foods for a few hours", "Seek medical help if vomiting blood"]
+  },
+  "abdominal pain": {
+    "department": ["Gastroenterology"],
+    "risk": "moderate",
+    "follow_up": ["Note the location and pattern of pain", "Avoid spicy and acidic foods", "See a doctor if pain is severe or persistent"]
+  },
+  "diarrhea": {
+    "department": ["Gastroenterology"],
+    "risk": "low",
+    "follow_up": ["Stay hydrated with ORS", "Eat bland foods (BRAT diet)", "See a doctor if blood in stool or lasting beyond 3 days"]
+  },
+  "rash": {
+    "department": ["Dermatology"],
+    "risk": "low",
+    "follow_up": ["Avoid scratching the affected area", "Apply a mild moisturizer", "Consult a dermatologist if the rash spreads or worsens"]
+  },
+  "joint pain": {
+    "department": ["Orthopedics", "Rheumatology"],
+    "risk": "low",
+    "follow_up": ["Apply ice for 15–20 minutes", "Avoid heavy lifting", "Consult an orthopedic specialist if pain persists beyond a week"]
+  },
+  "back pain": {
+    "department": ["Orthopedics"],
+    "risk": "low",
+    "follow_up": ["Maintain good posture", "Apply a warm compress", "See a doctor if pain radiates to the legs"]
+  },
+  "dizziness": {
+    "department": ["Neurology", "ENT"],
+    "risk": "low",
+    "follow_up": ["Sit or lie down immediately", "Stay hydrated", "See a doctor if dizziness is recurrent or accompanied by hearing loss"]
+  },
+  "fatigue": {
+    "department": ["General Medicine"],
+    "risk": "low",
+    "follow_up": ["Ensure 7–9 hours of sleep", "Get blood work done (CBC, thyroid)", "Reduce stress and improve diet"]
+  },
+  "diabetes": {
+    "department": ["Endocrinology"],
+    "risk": "moderate",
+    "follow_up": ["Monitor blood sugar regularly", "Follow prescribed diet and medication", "Get an HbA1c test every 3 months"]
+  },
+  "blood pressure": {
+    "department": ["Cardiology", "General Medicine"],
+    "risk": "moderate",
+    "follow_up": ["Reduce sodium intake", "Exercise for 30 min daily", "Take medications as prescribed without skipping"]
+  },
+  "stroke": {
+    "department": ["Neurology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Call emergency services immediately — FAST protocol", "Note the time symptoms started", "Do NOT give food or water"]
+  },
+  "seizure": {
+    "department": ["Neurology", "Emergency Medicine"],
+    "risk": "high",
+    "follow_up": ["Clear area of dangerous objects", "Do NOT restrain the person", "Call emergency services if seizure lasts more than 5 minutes"]
+  },
+  "anxiety": {
+    "department": ["Psychiatry", "General Medicine"],
+    "risk": "low",
+    "follow_up": ["Practice deep breathing exercises", "Reduce caffeine and alcohol", "Consider speaking with a mental health professional"]
+  },
+  "depression": {
+    "department": ["Psychiatry"],
+    "risk": "moderate",
+    "follow_up": ["Reach out to a trusted person", "Consider professional counseling", "Maintain a daily routine and physical activity"]
+  }
+}

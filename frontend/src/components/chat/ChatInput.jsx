@@ -1,43 +1,54 @@
-import { useState } from 'react'
-import { Send, Loader2 } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Send } from 'lucide-react'
+import UploadButton from './UploadButton'
 
-export default function ChatInput({ onSend, isLoading }) {
+export default function ChatInput({ onSend, onUpload, disabled, placeholder = 'Type your answer…' }) {
   const [text, setText] = useState('')
+  const textareaRef = useRef(null)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (text.trim() && !isLoading) {
-      onSend(text.trim())
-      setText('')
+  const submit = () => {
+    const t = text.trim()
+    if (!t || disabled) return
+    onSend(t)
+    setText('')
+    textareaRef.current?.focus()
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      submit()
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-100 mt-auto rounded-b-2xl">
-      <div className="flex items-center gap-3">
-        <input
-          type="text"
+    <div className="px-4 py-3 border-t border-[#238370]/10 bg-white">
+      <div className="flex items-end gap-2">
+        <UploadButton onUpload={onUpload} />
+
+        <textarea
+          ref={textareaRef}
+          rows={1}
           value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Describe your symptoms..."
-          disabled={isLoading}
-          className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all disabled:opacity-50"
+          onChange={e => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={disabled}
+          placeholder={disabled ? 'Analysis complete. Start a new chat.' : placeholder}
+          className="flex-1 resize-none rounded-xl border border-[#238370]/20 bg-[#238370]/5 px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#238370]/25 transition-all max-h-28 overflow-y-auto disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ lineHeight: '1.5' }}
         />
+
         <button
-          type="submit"
-          disabled={!text.trim() || isLoading}
-          className="bg-primary-600 hover:bg-primary-700 text-white p-3 rounded-xl disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-sm shadow-primary-200"
+          onClick={submit}
+          disabled={!text.trim() || disabled}
+          className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#238370] text-white flex items-center justify-center hover:bg-[#1a6457] disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all"
         >
-          {isLoading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <Send className="h-5 w-5 ml-0.5" />
-          )}
+          <Send size={15} />
         </button>
       </div>
-      <p className="text-center text-xs text-gray-400 mt-3">
-        DocTech AI can make mistakes. Always consult a real doctor for medical decisions.
+      <p className="text-[10px] text-center text-gray-300 mt-1.5">
+        AI responses are for guidance only. Always consult a licensed physician.
       </p>
-    </form>
+    </div>
   )
 }
